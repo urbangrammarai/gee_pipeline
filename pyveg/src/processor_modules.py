@@ -28,18 +28,6 @@ from pyveg.src.image_utils import (
     process_and_threshold,
     scale_tif,
 )
-
-# from pyveg.src.coordinate_utils import find_coords_string
-# from pyveg.src.date_utils import assign_dates_to_tasks
-# from pyveg.src.file_utils import consolidate_json_to_list, save_image, save_json
-# from pyveg.src.image_utils import (
-#     check_image_ok,y
-#     convert_to_rgb,y
-#     crop_image_npix,y
-#     pillow_to_numpy,y
-#     process_and_threshold,y
-#     scale_tif,y
-# )
 from pyveg.src.pyveg_pipeline import BaseModule, logger
 from pyveg.src.subgraph_centrality import feature_vector_metrics, subgraph_centrality
 
@@ -511,7 +499,7 @@ class VegetationImageProcessor(ProcessorModule):
 
     def save_rgb_image(self, band_dict, date_string, coords_string):
         """
-        Merge the seperate tif files for the R,G,B bands into
+        Merge the separate tif files for the R,G,B bands into
         one image, and save it.
         """
         logger.info(
@@ -1050,3 +1038,25 @@ class NDVICalculator(ProcessorModule):
         )
 
         return True
+
+
+class Reprojector(ProcessorModule):
+    """
+    Read the tiff files downloaded from GEE, and reproject them to a target CRS.
+    The output files are located in ....
+    """
+
+    def __init__(self, name=None):
+        super().__init__(name)
+
+    def set_default_parameters(self):
+        """
+        Set some basic defaults.  Note that these might get overriden
+        by a parent Sequence, or by calling configure() with a dict of values
+        """
+        super().set_default_parameters()
+        self.input_location_subdirs = ["RAW"]
+        self.output_location_subdirs = ["JSON", "CRS_name"]
+
+    def process_single_date(self, date_string):
+        pass

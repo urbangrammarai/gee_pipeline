@@ -5,17 +5,19 @@ Tests for the modules that process the images downloaded from GEE
 import json
 import os
 import shutil
-import unittest
+
+import pytest
 
 from pyveg.src.processor_modules import (
     NDVICalculator,
     NetworkCentralityCalculator,
+    Reprojector,
     VegetationImageProcessor,
     WeatherImageToJSON,
 )
 
 
-@unittest.skipIf(
+@pytest.mark.skipif(
     os.environ.get("CI") == "true",
     "Skipping this test in a CI - waiting on a fix for #20. "
     "https://github.com/urbangrammarai/gee_pipeline/issues/20",
@@ -159,3 +161,22 @@ def test_NDVICalculator():
     assert "date" in nc_json[0].keys()
     assert isinstance(nc_json[0]["date"], str)
     shutil.rmtree(tmp_json_path)
+
+
+def test_Reprojector(tmp_path):
+    input_path = os.path.join(
+        os.path.dirname(__file__), "..", "testdata", "Sentinel2", "test_tif"
+    )
+    tmp_output_path = str(tmp_path / "tmp_png")
+
+    repoj = Reprojector()
+    repoj.input_location = input_path
+    repoj.output_location = tmp_output_path
+    repoj.ndvi = True
+    repoj.coords = [11.58, 27.95]
+    repoj.configure()
+    repoj.run()
+    assert os.path.exists(os.path.join(tmp_output_path, "2018-03-01", "projected"))
+    assert (
+        len(os.listdir(os.path.join(tmp_output_path, "2018-03-01", "projected"))) == 4
+    )
