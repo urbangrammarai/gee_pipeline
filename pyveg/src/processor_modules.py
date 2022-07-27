@@ -6,13 +6,18 @@ that can be chained together to build a sequence.
 import datetime
 import os
 import re
+import shlex
 import shutil
+import subprocess
+import sys
 import tempfile
 import time
 from multiprocessing import Pool
+from pathlib import Path
 
 import cv2 as cv
 import numpy as np
+from icecream import ic
 from PIL import Image
 
 from pyveg.src import azure_utils, batch_utils
@@ -1056,7 +1061,62 @@ class Reprojector(ProcessorModule):
         """
         super().set_default_parameters()
         self.input_location_subdirs = ["RAW"]
-        self.output_location_subdirs = ["JSON", "CRS_name"]
+        self.output_location_subdirs = ["projected"]
+        self.output_crs = "EPSG:27700"
+        self.output_crs_name = "BNG"
 
     def process_single_date(self, date_string):
-        pass
+
+        # Directory containing input files
+        input_dpath = Path(
+            self.input_location, date_string, *(self.input_location_subdirs)
+        ).resolve()
+
+        # Directory which will contain output files
+        output_dpath = Path(
+            self.output_location, date_string, *(self.output_location_subdirs)
+        ).resolve()
+        # Ensure the output dir exists
+        output_dpath.mkdir(parents=True, exist_ok=True)
+
+        # Get the full paths to the .tif/.tiff files in the input dir
+        dir_contents = self.list_directory(str(input_dpath), self.input_location_type)
+        full_paths = [(input_dpath / f) for f in dir_contents]
+        tiff_fpaths = [p for p in full_paths if p.suffix in (".tif", ".tiff")]
+
+        # Build a list of commands to reproject each file individually
+        cmds = []
+        for input_fpath in tiff_fpaths:
+            output_tiff = output_dpath / input_fpath.name
+            safe_input = shlex.quote(str(input_fpath))
+            safe_output = shlex.quote(str(output_tiff))
+
+            cmds.append(
+                f"rio warp {safe_input} {safe_output} --threads 16 --dst-crs {self.output_crs}"
+            )
+
+        # Now run those commands (This might be expensive)
+        success = True
+        for cmd in cmds:
+            logger.info(f"Reprojecting file using the command: {cmd}")
+            try:
+                process_result = subprocess.run(cmd, shell=True)
+                if process_result.stdout:
+                    logger.info(
+                        f"Reprojection command succeeded, with the following output message: {process_result.stdout}"
+                    )
+                else:
+                    logger.info(
+                        "Reprojection command succeeded. No output message was return"
+                    )
+
+            except subprocess.CalledProcessError as cpe:
+                success = False
+                logger.error(
+                    f"Reprojection command failed, with the following output information:"
+                )
+                logger.error(f"return code = {cpe.returncode}")
+                logger.error(f"stderr = {cpe.stderr}")
+                logger.error(f"stdout = {cpe.stdout}")
+
+        return success

@@ -5,8 +5,10 @@ Tests for the modules that process the images downloaded from GEE
 import json
 import os
 import shutil
+from pathlib import Path
 
 import pytest
+from icecream import ic
 
 from pyveg.src.processor_modules import (
     NDVICalculator,
@@ -165,18 +167,41 @@ def test_NDVICalculator():
 
 def test_Reprojector(tmp_path):
     input_path = os.path.join(
-        os.path.dirname(__file__), "..", "testdata", "Sentinel2", "test_tif"
+        os.path.dirname(__file__), "..", "testdata", "Sentinel2", "test_ne_england"
     )
-    tmp_output_path = str(tmp_path / "tmp_png")
+    ic(input_path)
+    input_path = (
+        Path(__file__).parent.parent / "testdata" / "Sentinel2" / "test_ne_england"
+    )
+    ic(input_path)
+
+    tmp_output_path = tmp_path / "2018-03-01" / "projected"
 
     repoj = Reprojector()
-    repoj.input_location = input_path
-    repoj.output_location = tmp_output_path
+    repoj.input_location = str(input_path)
+    repoj.output_location = str(tmp_path)
     repoj.ndvi = True
     repoj.coords = [11.58, 27.95]
     repoj.configure()
     repoj.run()
-    assert os.path.exists(os.path.join(tmp_output_path, "2018-03-01", "projected"))
-    assert (
-        len(os.listdir(os.path.join(tmp_output_path, "2018-03-01", "projected"))) == 4
-    )
+
+    # check module repoj.run_status
+    ic(repoj.run_status)
+
+    expected_run_status = {"failed": 0, "incomplete": 0, "succeeded": 1}
+    assert repoj.run_status == expected_run_status
+
+    # Check that the output dir was created correctly
+    assert tmp_output_path.exists()
+    assert tmp_output_path.is_dir()
+
+    # Check that the output dir contains the expected number of files
+    assert len([f for f in tmp_output_path.iterdir()]) == 2
+
+    """
+    (gee_pipeline) T0QGJHN936:RAW a.smith$ rio info ne_mosaic_bng.tif
+    {"blockxsize": 256, "blockysize": 256, "bounds": [409955.8954843804, 548977.8478618148, 443001.9881505056, 574618.0929891961], "colorinterp": ["gray", "undefined", "undefined"], "count": 3, "crs": "EPSG:27700", "descriptions": [null, null, null], "driver": "GTiff", "dtype": "uint16", "height": 2562, "indexes": [1, 2, 3], "interleave": "pixel", "lnglat": [-1.5881173224112388, 54.95013449122592], "mask_flags": [["nodata"], ["nodata"], ["nodata"]], "nodata": 0.0, "res": [10.007902079383756, 10.0079020793838], "shape": [2562, 3302], "tiled": true, "transform": [10.007902079383756, 0.0, 409955.8954843804, 0.0, -10.0079020793838, 574618.0929891961, 0.0, 0.0, 1.0], "units": [null, null, null], "width": 3302}
+    (gee_pipeline) T0QGJHN936:RAW a.smith$ rio info ne_mosaic_ll.tif
+    {"blockxsize": 256, "blockysize": 256, "bounds": [-1.846526138233316, 54.83385086180488, -1.3282765593168353, 55.065937129126056], "colorinterp": ["gray", "undefined", "undefined"], "count": 3, "crs": "EPSG:4326", "descriptions": [null, null, null], "driver": "GTiff", "dtype": "uint16", "height": 1721, "indexes": [1, 2, 3], "interleave": "pixel", "lnglat": [-1.5874013487750758, 54.94989399546547], "mask_flags": [["nodata"], ["nodata"], ["nodata"]], "nodata": 0.0, "res": [0.00013485547200532938, 0.00013485547200532938], "shape": [1721, 3843], "tiled": true, "transform": [0.00013485547200532938, 0.0, -1.846526138233316, 0.0, -0.00013485547200532938, 55.065937129126056, 0.0, 0.0, 1.0], "units": [null, null, null], "width": 3843}
+
+    """
