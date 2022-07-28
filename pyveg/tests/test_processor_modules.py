@@ -21,8 +21,7 @@ from pyveg.src.processor_modules import (
 
 @pytest.mark.skipif(
     os.environ.get("CI") == "true",
-    "Skipping this test in a CI - waiting on a fix for #20. "
-    "https://github.com/urbangrammarai/gee_pipeline/issues/20",
+    reason="Skipping this test in a CI - waiting on a fix for #20. https://github.com/urbangrammarai/gee_pipeline/issues/20",
 )
 def test_Sentinel2_image_processor():
     """
