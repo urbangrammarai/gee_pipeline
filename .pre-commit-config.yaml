@@ -15,6 +15,7 @@ repos:
     -   id: check-yaml
     -   id: check-xml
     -   id: check-added-large-files
+        exclude: (^pyveg/testdata/Sentinel2/test_ne_england/2018-03-01/RAW/)
 -   repo: https://github.com/psf/black
     rev: 22.3.0
     hooks:
