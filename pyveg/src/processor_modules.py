@@ -476,7 +476,7 @@ class VegetationImageProcessor(ProcessorModule):
             self.count = True
         # in PROCESSED dir we expect RGB. NDVI, BWNDVI
         self.num_files_per_point = 3
-        self.input_location_subdirs = ["RAW"]
+        self.input_location_subdirs = ["PROJECTED"]
         self.output_location_subdirs = ["PROCESSED"]
 
     def construct_image_savepath(self, date_string, coords_string, image_type="RGB"):
@@ -1061,7 +1061,7 @@ class Reprojector(ProcessorModule):
         """
         super().set_default_parameters()
         self.input_location_subdirs = ["RAW"]
-        self.output_location_subdirs = ["projected"]
+        self.output_location_subdirs = ["PROJECTED"]
         self.output_crs = "EPSG:27700"
         self.output_crs_name = "BNG"
 

@@ -24,6 +24,7 @@ from pyveg.src.combiner_modules import VegAndWeatherJsonCombiner
 from pyveg.src.processor_modules import (
     NDVICalculator,
     NetworkCentralityCalculator,
+    Reprojector,
     VegetationImageProcessor,
     WeatherImageToJSON,
 )

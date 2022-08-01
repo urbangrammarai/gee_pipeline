@@ -117,6 +117,9 @@ docs/source/_templates
 
 # Test data
 pyveg/testdata/test_ne_england/
+pyveg/testdata/Sentinel2/tmp_png/
+Sentinel2-52.50N-1.90W-birmingham-reproject-test__*/
 
 # Virtual Environments
 env/
+birmingham-test__2022-*/

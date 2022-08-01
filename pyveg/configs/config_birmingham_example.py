@@ -31,6 +31,7 @@ collections_to_use = ["Sentinel2"]
 modules_to_use = {
     "Sentinel2": [
         "VegetationDownloader",
+        "Reprojector",
         "VegetationImageProcessor",
     ],
 }

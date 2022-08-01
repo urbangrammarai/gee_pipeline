@@ -35,6 +35,7 @@ modules_to_use = {
     "WEATHER_COLL_NAME": ["WeatherDownloader", "WeatherImageToJSON"],
     "COLLECTION_NAME": [
         "VegetationDownloader",
+        "Reprojector",
         "VegetationImageProcessor",
         "NetworkCentralityCalculator",
         "NDVICalculator",

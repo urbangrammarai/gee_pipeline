@@ -165,10 +165,6 @@ def test_NDVICalculator():
 
 
 def test_Reprojector(tmp_path):
-    input_path = os.path.join(
-        os.path.dirname(__file__), "..", "testdata", "Sentinel2", "test_ne_england"
-    )
-    ic(input_path)
     input_path = (
         Path(__file__).parent.parent / "testdata" / "Sentinel2" / "test_ne_england"
     )
