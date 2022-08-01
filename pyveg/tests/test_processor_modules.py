@@ -170,7 +170,7 @@ def test_Reprojector(tmp_path):
     )
     ic(input_path)
 
-    tmp_output_path = tmp_path / "2018-03-01" / "projected"
+    tmp_output_path = tmp_path / "2018-03-01" / "PROJECTED"
 
     repoj = Reprojector()
     repoj.input_location = str(input_path)
