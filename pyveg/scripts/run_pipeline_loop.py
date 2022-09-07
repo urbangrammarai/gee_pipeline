@@ -39,7 +39,7 @@ def run_pipeline(config_directory):
     for input_fpath in full_paths:
         safe_input = shlex.quote(str(input_fpath))
 
-        cmds.append(f"pyveg_run_pipeline --config_file {safe_input}")
+        cmds.append(f"pyveg_run_pipeline --config_file {safe_input} --from_cache")
 
     # Now run those commands (This might be expensive)
 
