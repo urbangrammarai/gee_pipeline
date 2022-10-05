@@ -5,6 +5,9 @@ FROM continuumio/anaconda3 AS build
 # Install the package as normal:
 # COPY environment.yml .
 WORKDIR /gee_pipeline
+
+RUN apt-get update && apt-get install -y python3-opencv
+
 COPY ./environment.yml .
 RUN conda env create -n peep -f ./environment.yml
 
@@ -16,6 +19,8 @@ ENV PATH="${PATH}:/gee_pipeline/google-cloud-sdk/bin"
 # # SHELL ["/bin/bash", "-c"]
 # # ENTRYPOINT
 SHELL ["conda", "run", "-n", "peep", "/bin/bash", "-c"]
+
+RUN pip install opencv-python
 
 # SHELL ["/bin/bash", "-c"]
 RUN python -c "print('hello from build!')"

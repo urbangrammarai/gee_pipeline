@@ -129,3 +129,4 @@ tmp_gcloud_install.tar.gz
 google-cloud-sdk/
 google-cloud-sdk2/
 tmp_install.tar.gz
+peep/application_default_credentials.json
