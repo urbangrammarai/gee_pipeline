@@ -175,7 +175,7 @@ See [here](UsingZenodo.md) for more details.
 
 # Contributing
 
-We welcome contributions from anyone who is interested in the project. There are lots of ways to contribute, not just writing code. See our [Contributor Guidelines](CONTRIBUTING.md) to learn  more about how you can contribute and how we work together as a community.
+We welcome contributions from anyone who is interested in the project. There are lots of ways to contribute, not just writing code. See our [Contributor Guidelines](CONTRIBUTING.md) to learn more about how you can contribute and how we work together as a community.
 
 # Licence
 
