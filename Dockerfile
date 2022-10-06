@@ -16,18 +16,18 @@ COPY ./install_gcloud.sh .
 RUN ./install_gcloud.sh
 ENV PATH="${PATH}:/gee_pipeline/google-cloud-sdk/bin"
 
-# # SHELL ["/bin/bash", "-c"]
+SHELL ["/bin/bash", "-c"]
 # # ENTRYPOINT
-SHELL ["conda", "run", "-n", "peep", "/bin/bash", "-c"]
+# SHELL ["/opt/conda/condabin/conda", "run", "-n", "peep", "/bin/bash", "-c"]
 
-RUN pip install opencv-python
+RUN /opt/conda/envs/peep/bin/python -m pip install --no-cache-dir opencv-python
 
 # SHELL ["/bin/bash", "-c"]
-RUN python -c "print('hello from build!')"
+RUN /opt/conda/envs/peep/bin/python -c "print('hello from build!')"
 
 COPY . .
 
-RUN python -m pip install .
+RUN /opt/conda/envs/peep/bin/python -m pip --no-cache-dir install .
 
 # SHELL ["/bin/bash", "-c"]
 ENTRYPOINT tail -f /dev/null

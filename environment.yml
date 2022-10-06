@@ -28,7 +28,6 @@ dependencies:
   - pandoc
   - sphinx_rtd_theme
   - pyarrow
-  - icecream
   - matplotlib
 
 ##########
