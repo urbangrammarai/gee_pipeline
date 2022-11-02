@@ -35,63 +35,6 @@ docker run -d peep
 
 ### Authenticating the Google Earth Engine
 
-It is not possible authenticate the google earth engine client directly from within the docker container
-
-Open a shell to the docker container:
-```
-docker exec -it <container_name or id> /bin/bash
-```
-
-Ensure that you have the correct conda environment activated:
-```
-conda activate peep
-```
-
-Start the authentication process:
-```
-earthengine authenticate --quiet
-```
-
-This will output a message that looks simular to the below:
-```
-gcloud auth application-default login --remote-bootstrap="https://accounts.google.com/o/oauth2/auth?response_type=code&client_id=XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX.apps.googleusercontent.com&scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fearthengine+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fdevstorage.full_control+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Faccounts.reauth&state=aSWZIEfr47wX483XfpU8EbT2kp1oQG&access_type=offline&code_challenge=yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy&code_challenge_method=S256&token_usage=remote"
-DO NOT PROCEED UNLESS YOU ARE BOOTSTRAPPING GCLOUD ON A TRUSTED MACHINE WITHOUT A WEB BROWSER AND THE ABOVE COMMAND WAS THE OUTPUT OF `gcloud auth application-default
-login --no-browser` FROM THE TRUSTED MACHINE.
-```
-
-
-Install `gclould` on your own computer (ie a computer where you have a browser and are able to log into your Google account):
-
-<-- link to gcloud installation instructions -->
-
-
-```
-gcloud auth application-default login --remote-bootstrap="https://accounts.google.com/o/oauth2/auth?response_type=code&client_id=XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX.apps.googleusercontent.com&scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fearthengine+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fdevstorage.full_control+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Faccounts.reauth&state=aSWZIEfr47wX483XfpU8EbT2kp1oQG&access_type=offline&code_challenge=yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy&code_challenge_method=S256&token_usage=remote"
-DO NOT PROCEED UNLESS YOU ARE BOOTSTRAPPING GCLOUD ON A TRUSTED MACHINE WITHOUT A WEB BROWSER AND THE ABOVE COMMAND WAS THE OUTPUT OF `gcloud auth application-default
-login --no-browser` FROM THE TRUSTED MACHINE.
-```
-
-<-- Add screenshots here -->
-
-
-
-Your authentication details are stored here (on the docker image):
-[/root/.config/gcloud/application_default_credentials.json]
-
-
-(create or connect to Google Cloud Project)
-
-
-You should be able to run this command without any errors (no output indicates success)
-```
-python -c "import ee; ee.Initialize()"
-```
-
-/Users/a.smith/code/urbangrammarai/gee_pipeline/README.md
-
-
-
-
 It is not possible to authenticate the google earth engine client directly from within the docker container. Instead, Google earthengine/gcloud CLI tools, provide a way to transfer your authentication details from another computer to the docker container. For this you require:
 
 * The `peep` docker container
