@@ -6,7 +6,8 @@ azure-batch==6.0.0
 datetime
 numpy
 scipy
-matplotlib==3.1
+matplotlib
+# matplotlib==3.1
 seaborn
 pytest
 requests
@@ -27,3 +28,4 @@ pandoc
 sphinx_rtd_theme
 pyarrow
 icecream
+# opencv-python-headless

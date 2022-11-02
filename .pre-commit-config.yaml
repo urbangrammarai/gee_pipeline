@@ -30,6 +30,20 @@ repos:
     -   id: isort
         args: ["--profile", "black", "--filter-files"]
 
+# Cannot assume that `hadolint` is install on all developer's machines.
+# The docker based version of this hook `hadolint-docker` does not work on M1 Macs
+# Therefore this entry is left disabled for now and a GitHub Action check has
+# been put in place instead.
+# -   repo: https://github.com/hadolint/hadolint
+#     rev: v2.10.0
+#     hooks:
+#       - id: hadolint
+
+-   repo: https://github.com/IamTheFij/docker-pre-commit
+    rev: v2.1.0
+    hooks:
+      - id: docker-compose-check
+
 # Ignore type checking for now, as this would require non-trival change to the code
 # in order to pass `mypy` tests
 # -   repo: https://github.com/pre-commit/mirrors-mypy
