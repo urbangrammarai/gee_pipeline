@@ -9,7 +9,7 @@ from geetools import cloud_mask
 
 from .file_utils import download_and_unzip
 
-ee.Initialize()
+ee.Initialize(project="urbangrammar")
 
 
 if os.name == "posix":

@@ -15,7 +15,7 @@ from peep.src.peep_pipeline import BaseModule, logger
 # from datetime import datetime, timedelta
 
 
-ee.Initialize()
+ee.Initialize(project="urbangrammar")
 
 # silence google API WARNING
 
