@@ -63,7 +63,9 @@ class DownloaderModule(BaseModule):
         if not "replace_existing_files" in vars(self):
             self.replace_existing_files = False
         if not "ndvi" in vars(self):
-            self.ndvi = False
+            # TODO: temp change to `True`, set from config
+            # self.ndvi = False
+            self.ndvi = True
         if not "count" in vars(self):
             self.count = True
         if not "bounds" in vars(self):
