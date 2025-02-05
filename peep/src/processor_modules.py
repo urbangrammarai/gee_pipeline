@@ -468,11 +468,15 @@ class ImageProcessor(ProcessorModule):
         if not "RGB_bands" in vars(self):
             self.RGB_bands = ["B4", "B3", "B2"]
         if not "split_RGB_images" in vars(self):
-            self.split_RGB_images = True
+            # TODO: set as False as only tif needed, check if can be passed from CLI/config
+            # self.split_RGB_images = True
+            self.split_RGB_images = False
         if not "ndvi" in vars(self):
             self.ndvi = False
         if not "count" in vars(self):
-            self.count = True
+            # TODO: set as false given error from create_heatmap
+            # self.count = True
+            self.count = False
         if not "sub_image_npix" in vars(self):
             self.sub_image_npix = 32  # 32 x 32 pixels
         if not "save_split_image" in vars(self):
@@ -759,6 +763,12 @@ class ImageProcessor(ProcessorModule):
                 self.sub_image_npix,
             )
 
+        # TODO: currently count heatmap not working with error
+        # line 3300, in figaspect
+        # nr, nc = arg.shape[:2]
+        # ValueError: not enough values to unpack (expected 2, got 0)
+        # Updated default value for ImageProcessor parameter count to False
+        # Set back to `True` upon fixing `create_heatmap`
         if self.count:
             # save the COUNT image
             count_tif = self.get_file(

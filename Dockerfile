@@ -27,7 +27,7 @@ RUN /opt/conda/envs/peep/bin/python -c "print('hello from build!')"
 
 COPY . .
 
-RUN /opt/conda/envs/peep/bin/python -m pip --no-cache-dir install .
+RUN /opt/conda/envs/peep/bin/python -m pip --no-cache-dir install -e .
 
 # SHELL ["/bin/bash", "-c"]
 ENTRYPOINT tail -f /dev/null

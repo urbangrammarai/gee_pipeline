@@ -4,13 +4,13 @@ data_collections = {
     "Sentinel2": {
         "collection_name": "COPERNICUS/S2",
         "data_type": "vegetation",
-        "RGB_bands": ["B4", "B3", "B2"],
+        "RGB_bands": ["B4", "B3", "B2", "B8"],
         "NIR_band": "B8",
         "mask_cloud": True,
         "cloudy_pix_frac": 50,
         "cloudy_pix_flag": "CLOUDY_PIXEL_PERCENTAGE",
         "min_date": "2016-01-01",
-        "max_date": "2022-01-01",  # Get to current year.
+        "max_date": "2024-01-01",  # Get to current year.
         #        "max_date": time.strftime("%Y-%m-%d"),
         "time_per_point": "1m",
     },
