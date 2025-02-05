@@ -4,7 +4,7 @@ data_collections = {
     "Sentinel2": {
         "collection_name": "COPERNICUS/S2",
         "data_type": "vegetation",
-        "RGB_bands": ["B4", "B3", "B2"],
+        "RGB_bands": ["B4", "B3", "B2", "B8"],
         "NIR_band": "B8",
         "mask_cloud": True,
         "cloudy_pix_frac": 50,

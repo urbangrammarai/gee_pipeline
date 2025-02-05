@@ -468,7 +468,9 @@ class ImageProcessor(ProcessorModule):
         if not "RGB_bands" in vars(self):
             self.RGB_bands = ["B4", "B3", "B2"]
         if not "split_RGB_images" in vars(self):
-            self.split_RGB_images = True
+            # TODO: set as False as only tif needed, check if can be passed from CLI/config
+            # self.split_RGB_images = True
+            self.split_RGB_images = False
         if not "ndvi" in vars(self):
             self.ndvi = False
         if not "count" in vars(self):
